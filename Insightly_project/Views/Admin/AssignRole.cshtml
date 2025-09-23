@@ -1,0 +1,27 @@
+﻿@model Insightly_project.Models.ApplicationUser
+@{
+    ViewData["Title"] = "Assign Role";
+    var roles = ViewBag.Roles as List<string>;
+    var userRoles = ViewBag.UserRoles as IList<string>;
+}
+
+<h2>Assign Role to @Model.Email</h2>
+
+<form asp-action="AssignRole" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <div class="form-group">
+        <label for="role">Select Role:</label>
+        <select class="form-control" id="role" name="role">
+            <option value="">-- No Role --</option>
+            @foreach (var role in roles)
+            {
+                var selected = userRoles.Contains(role) ? "selected" : "";
+                <option value="@role" selected="@(selected == "selected" ? "selected" : null)">@role</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-2">Save Role</button>
+    <a asp-action="Users" class="btn btn-secondary mt-2">Back</a>
+</form>

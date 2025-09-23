@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Insightly_project.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav ml-auto align-items-lg-center">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <span class="nav-link user-welcome d-none d-lg-inline-block">
+                <i class="bi bi-person-circle"></i> Hello, @User.Identity.Name!
+            </span>
+        </li>
+        
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" 
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bi bi-person-circle d-lg-none"></i>
+                <span class="d-lg-none">My Account</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                <div class="dropdown-header d-lg-none">@User.Identity.Name</div>
+                <a class="dropdown-item" href="#"><i class="bi bi-person"></i> Profile</a>
+                <a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a>
+                <div class="dropdown-divider"></div>
+                <form asp-area="Identity" asp-page="/Account/Logout" method="post" id="logoutForm">
+                    <button type="submit" class="dropdown-item text-danger">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
+                </form>
+            </div>
+        </li>
+        
+        <li class="nav-item ml-2">
+            <a class="nav-link" href="#" data-toggle="tooltip" title="Notifications">
+                <i class="bi bi-bell position-relative">
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
+                          style="font-size: 0.5rem; top: -5px; right: -8px;">
+                        3
+                    </span>
+                </i>
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item auth-buttons d-flex">
+            <a class="btn nav-btn-login" asp-area="Identity" asp-page="/Account/Login">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+            </a>
+            <a class="btn nav-btn-register" asp-area="Identity" asp-page="/Account/Register">
+                <i class="bi bi-person-plus"></i> Register
+            </a>
+        </li>
+    }
+</ul>

@@ -1,0 +1,203 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+/* --- UI Tweaks --- */
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.card { border: 1px solid rgba(0,0,0,.075); }
+.table td, .table th { vertical-align: middle; }
+.btn-group .btn + .btn { margin-left: .25rem; }
+.navbar-brand { font-weight: 600; }
+.footer { font-size: .9rem; }
+
+/* Modern Navbar Styles */
+.modern-navbar {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  padding: 0.7rem 1rem;
+}
+
+.modern-navbar.navbar-shrink {
+  padding: 0.5rem 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modern-navbar .navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.modern-navbar .navbar-brand i {
+  margin-right: 0.3rem;
+  font-size: 1.3rem;
+  vertical-align: -1px;
+}
+
+.modern-navbar .nav-link {
+  position: relative;
+  padding: 0.8rem 1rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.modern-navbar .nav-link:hover {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.modern-navbar .nav-link i {
+  margin-right: 0.35rem;
+}
+
+.modern-navbar .nav-item.active .nav-link:after {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 2px;
+  background-color: #fff;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.modern-navbar .dropdown-menu {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.modern-navbar .dropdown-item {
+  padding: 0.7rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.modern-navbar .dropdown-item:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.modern-navbar .dropdown-item i {
+  margin-right: 0.7rem;
+}
+
+.modern-navbar .user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.modern-navbar .user-welcome {
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.modern-navbar .navbar-toggler {
+  border: none;
+  padding: 0.5rem;
+}
+
+.modern-navbar .auth-buttons .btn {
+  margin-left: 0.5rem;
+  border-radius: 20px;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  transition: all 0.2s ease;
+}
+
+.nav-btn-login {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  color: #fff;
+}
+
+.nav-btn-login:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.nav-btn-register {
+  background-color: #fff;
+  color: #2780e3;
+}
+
+.nav-btn-register:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+}

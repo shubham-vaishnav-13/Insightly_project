@@ -1,0 +1,42 @@
+@{
+    var hasAny = TempData["Success"] != null || TempData["Error"] != null || TempData["Info"] != null || TempData["Warning"] != null;
+}
+@if (hasAny)
+{
+    <div aria-live="polite" aria-atomic="true" style="position: relative;">
+        <div style="position: fixed; top: 1rem; right: 1rem; z-index: 1080;">
+            @if (TempData["Success"] != null)
+            {
+                <div class="toast bg-success text-white" role="alert">
+                    <div class="toast-body">
+                        <i class="bi bi-check-circle mr-2"></i> @TempData["Success"]
+                    </div>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="toast bg-danger text-white" role="alert">
+                    <div class="toast-body">
+                        <i class="bi bi-x-circle mr-2"></i> @TempData["Error"]
+                    </div>
+                </div>
+            }
+            @if (TempData["Info"] != null)
+            {
+                <div class="toast bg-info text-white" role="alert">
+                    <div class="toast-body">
+                        <i class="bi bi-info-circle mr-2"></i> @TempData["Info"]
+                    </div>
+                </div>
+            }
+            @if (TempData["Warning"] != null)
+            {
+                <div class="toast bg-warning" role="alert">
+                    <div class="toast-body">
+                        <i class="bi bi-exclamation-triangle mr-2"></i> @TempData["Warning"]
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

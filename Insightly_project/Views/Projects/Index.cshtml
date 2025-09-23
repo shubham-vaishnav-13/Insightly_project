@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Insightly_project.Models.Project>
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0"><i class="bi bi-diagram-3"></i> Projects</h2>
+    @if (User.IsInRole("Admin"))
+    {
+        <a class="btn btn-success" asp-action="Create"><i class="bi bi-plus-circle"></i> New Project</a>
+    }
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Created</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td class="text-muted">@item.Description</td>
+                        <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                        <td>@(item.EndDate?.ToString("yyyy-MM-dd") ?? "-")</td>
+                        <td>@item.CreatedAt.ToString("yyyy-MM-dd")</td>
+                        <td class="text-right">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" title="Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-outline-secondary" asp-action="Edit" asp-route-id="@item.Id" data-toggle="tooltip" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+ </div>

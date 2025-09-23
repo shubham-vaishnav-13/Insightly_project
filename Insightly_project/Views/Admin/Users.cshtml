@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.Extensions.DependencyInjection
+@model List<Insightly_project.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<h2>All Users</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>
+                    @{
+                        var roles = await Context.RequestServices
+                        .GetRequiredService<UserManager<Insightly_project.Models.ApplicationUser>>()
+                        .GetRolesAsync(user);
+                        @string.Join(", ", roles)
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="AssignRole" asp-route-id="@user.Id">Assign Role</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
