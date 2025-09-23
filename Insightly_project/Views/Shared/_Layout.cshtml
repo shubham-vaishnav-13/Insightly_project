@@ -23,7 +23,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary modern-navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <i class="bi bi-kanban"></i> Insightly
@@ -35,49 +35,17 @@
 
                 <div class="collapse navbar-collapse" id="mainNavbar">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Home" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-house"></i> Dashboard
-                            </a>
-                        </li>
+            
 
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Projects" ? "active" : "")">
-                                <a class="nav-link" asp-controller="Projects" asp-action="Index">
-                                    <i class="bi bi-diagram-3"></i> Projects
-                                </a>
-                            </li>
-                            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "TaskItems" ? "active" : "")">
-                                <a class="nav-link" asp-controller="TaskItems" asp-action="Index">
-                                    <i class="bi bi-list-check"></i> Tasks
-                                </a>
-                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="adminMenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bi bi-gear"></i> Admin
+                                    Admin
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="adminMenu">
-                                    <a class="dropdown-item" asp-controller="Admin" asp-action="Users"><i class="bi bi-people"></i> Manage Users</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#"><i class="bi bi-sliders"></i> Settings</a>
+                                    <a class="dropdown-item" asp-controller="Admin" asp-action="Users"><i class="bi bi-people mr-2"></i>Users</a>
                                 </div>
-                            </li>
-                        }
-                        else if (User.IsInRole("TeamMember"))
-                        {
-                            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "TaskItems" ? "active" : "")">
-                                <a class="nav-link" asp-controller="TaskItems" asp-action="Index">
-                                    <i class="bi bi-list-check"></i> My Tasks
-                                </a>
-                            </li>
-                        }
-                        else if (User.IsInRole("Client"))
-                        {
-                            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Projects" ? "active" : "")">
-                                <a class="nav-link" asp-controller="Projects" asp-action="Index">
-                                    <i class="bi bi-folder2-open"></i> My Projects
-                                </a>
                             </li>
                         }
                     </ul>

@@ -211,3 +211,4 @@ C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcor
 C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Admin\AssignRole.cshtml.g.cs
 C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Users.cshtml.g.cs
 c:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Alerts.cshtml.g.cs
+C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Insightly_project.sourcelink.json

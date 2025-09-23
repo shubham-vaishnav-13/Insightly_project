@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyProductAttribute("Insightly_project")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8d6195f3a6f897203399c8516a94e17337b15b5e")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Insightly_project.Views")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
