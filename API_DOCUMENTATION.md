@@ -97,11 +97,6 @@ _Last updated: 2025-09-28_
 | POST | `/TaskItems/SetStatus` | Admin, TeamMember | Updates status (Completed / InProgress). | Form: `id`, `completed` (bool), optional `returnUrl`. TeamMember must be assignee. |
 | GET | `/TaskItems/GetTeamMembers` | Admin, TeamMember | JSON list of project team members. | Query: `projectId` (int). Response: `[{ id, userName }]`. 404 if project not found. |
 
-### SignalR Hubs
-
-| Hub | Path (default) | Auth | Methods | Description / Notes |
-| --- | --- | --- | --- | --- |
-| `RoleHub` | `/roleHub` (if mapped manually; not yet mapped in Startup) | Authenticated | `Ping()` -> `Pong` callback | Intended to notify clients of role changes; currently only a diagnostic ping. Mapping needs `endpoints.MapHub<RoleHub>("/roleHub");` in `Startup.Configure`. |
 
 ## Notes
 
@@ -113,8 +108,8 @@ _Last updated: 2025-09-28_
 	- Team members & clients only see/enter projects to which they are assigned.
 	- Team members can only view tasks they are assigned to (except admins).
 	- Clients have read-only access to tasks and cannot modify.
-- SignalR hub listed but not yet endpoint-mapped; add mapping to enable real-time role change notifications.
+<!-- Real-time features (e.g., SignalR) planned but not yet implemented, so omitted from active endpoint list. -->
 
 ## Change Log
 
-- 2025-09-28: Added full inventory (Register, Logout variants, AccessDenied, AdminDashboard metrics, AssignClients, SetStatus, search param, SignalR hub) and clarified authorization nuances.
+- 2025-09-28: Added full inventory (Register, Logout variants, AccessDenied, AdminDashboard metrics, AssignClients, SetStatus, search param) and clarified authorization nuances. Removed placeholder SignalR section until implemented.

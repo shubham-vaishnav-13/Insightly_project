@@ -10,16 +10,13 @@ Lightweight role-based project & task management platform built with ASP.NET Cor
 - Project management (CRUD, assign team members & clients)
 - Task management (CRUD, multi-user assignment via junction table, status tracking)
 - Dashboards per role (Admin metrics, Team Member view, Client view)
-- Immediate role change propagation (security stamp validation each request)
 - Search (project name/description)
-- JSON auxiliary endpoint for dynamic team member population
-- TempData alert messaging & structured layout partials
 - Data seeding (roles + three default users)
 - Clean separation of concerns via EF models & navigation properties
 
 ## 🧩 Planned / Roadmap Highlights
 See `PROJECT_ROADMAP.md` for full milestone plan:
-- Real-time updates (SignalR hub already scaffolded: `RoleHub`)
+- Real-time updates (future: add SignalR hub & notifications)
 - Task comments, attachments, Kanban board, analytics, email notifications
 - Improved scoping for clients & richer filters for tasks
 - CI/CD pipeline & Dockerization
@@ -35,22 +32,35 @@ See `PROJECT_ROADMAP.md` for full milestone plan:
 | Assign Clients to Project | ✅ | ❌ | ❌ |
 | View Projects | ✅ (all) | ✅ (assigned only) | ✅ (assigned only) |
 | Create/Edit/Delete Tasks | ✅ | ❌ (future: limited) | ❌ |
-| View Tasks | ✅ (all) | ✅ (assigned only) | ✅ (read-only) |
+| View Tasks | ✅ (all) | ✅ (assigned only) | ❌ |
 | Change Task Status | ✅ | ✅ (if assigned) | ❌ |
-| Fetch Team Members JSON | ✅ | ✅ | ❌ |
 
 ---
 ## 🏗 Architecture Overview
-- Presentation: ASP.NET Core MVC (Controllers + Razor Views)
-- Identity: `ApplicationUser` extends built-in Identity user + roles
-- Data Access: EF Core DbContext `ApplicationDbContext`
-- Entities:
-  - `Project` (1—* `TaskItem`, many-to-many with `ApplicationUser` via `ProjectUser`)
-  - `TaskItem` (many-to-many with `ApplicationUser` via `TaskItemUser`)
-  - Linking tables: `ProjectUser`, `TaskItemUser`
-- SignalR: `RoleHub` (Ping diagnostic; not yet registered in `Startup`)
-- Migrations tracked under `Migrations/`
-- Seeding helper: `Models/utils/DataSeeder.cs`
+
+- **Presentation Layer:** ASP.NET Core MVC  
+    &nbsp;&nbsp;• Controllers and Razor Views for UI and routing
+
+- **Identity & Roles:**  
+    &nbsp;&nbsp;• `ApplicationUser` extends ASP.NET Core Identity  
+    &nbsp;&nbsp;• Role-based access (Admin, Team Member, Client)
+
+- **Data Access:**  
+    &nbsp;&nbsp;• Entity Framework Core with `ApplicationDbContext`
+
+- **Core Entities:**  
+    &nbsp;&nbsp;• `Project`  
+    &nbsp;&nbsp;&nbsp;&nbsp;– One-to-many: `Project` → `TaskItem`  
+    &nbsp;&nbsp;&nbsp;&nbsp;– Many-to-many: `Project` ↔ `ApplicationUser` via `ProjectUser`  
+    &nbsp;&nbsp;• `TaskItem`  
+    &nbsp;&nbsp;&nbsp;&nbsp;– Many-to-many: `TaskItem` ↔ `ApplicationUser` via `TaskItemUser`  
+    &nbsp;&nbsp;• Linking tables: `ProjectUser`, `TaskItemUser`
+
+- **Migrations:**  
+    &nbsp;&nbsp;• Tracked in `Migrations/` directory
+
+- **Data Seeding:**  
+    &nbsp;&nbsp;• Helper class: `Models/utils/DataSeeder.cs`
 
 ### Data Relationships (current)
 ```
@@ -64,43 +74,39 @@ ApplicationUser --(ProjectUser)--> Project --(TaskItem)--> TaskItem --(TaskItemU
 - SQL Server LocalDB (default on Windows) or adjust connection string `BusinessCon` in `appsettings.json`
 
 ### 1. Restore & Build
+Open **Package Manager Console** in Visual Studio and run:
 ```powershell
-dotnet restore
-dotnet build
+# Restore NuGet packages
+Update-Package -reinstall
+# Build the solution
+Build
 ```
 
 ### 2. Apply Migrations / Create DB
-Database will be created automatically on first run if migrations are applied programmatically. If you need CLI control:
+Database will be created automatically on first run if migrations are applied programmatically. For manual control via Package Manager Console:
 ```powershell
-# Install EF tools if missing
-dotnet tool install --global dotnet-ef
-# (Optional) Add a migration if you introduce changes
-dotnet ef migrations add <Name>
+# Add a migration (if you introduce changes)
+Add-Migration <Name>
 # Update database
-dotnet ef database update
+Update-Database
 ```
 
 ### 3. Run the App
-```powershell
-dotnet run --project .\Insightly_project\Insightly_project.csproj
-```
-Navigate to: `https://localhost:5001/` (or the HTTPS port shown in console)
+Press **F5** or click **Start** in Visual Studio to launch the application.
+Navigate to: `https://localhost:5001/` (or the HTTPS port shown in the output window)
 
 ### 4. Seed Users & Roles
 If not automatically seeded (depends where `DataSeeder` is invoked—add during startup if needed):
-```csharp
-// Example snippet (Startup.Configure after scope creation)
-// await DataSeeder.SeedRolesAndAdmin(scope.ServiceProvider);
-```
+
 Default credentials (if seeded):
 - Admin: `admin@insightly.com` / `Admin@123`
 - Team Member: `member@insightly.com` / `Member@123`
 - Client: `client@insightly.com` / `Client@123`
 
+
 ---
 ## 🔐 Security Notes
 - Anti-forgery enforced on all form POSTs (`[ValidateAntiForgeryToken]`)
-- Security stamp validation interval = 0 ⇒ role changes effective immediately
 - Role-based trimming of project/task visibility (TeamMember & Client restricted)
 - Consider adding authorization policies for finer-grained data scoping and ownership
 
@@ -111,7 +117,6 @@ Default credentials (if seeded):
 3. Admin creates Task Items, optionally assigns team members
 4. Team Members view assigned tasks (filtered) and update status
 5. Clients view their assigned projects & associated tasks (read-only)
-6. Future: SignalR pushes notifications when roles or tasks change
 
 ---
 ## 🧪 Testing (Recommended Next Steps)
@@ -127,35 +132,9 @@ Core MVC endpoints are structured by controller/action convention. A concise ref
 - Dashboards
 - Projects (CRUD + Assign Team Members / Clients + search)
 - TaskItems (CRUD + Status updates + team member JSON)
-- SignalR Hub (planned mapping)
 
 ---
-## 🚀 Enabling SignalR (Optional Enhancement)
-Add to `Startup.ConfigureServices`:
-```csharp
-services.AddSignalR();
-```
-Add hub mapping in `Startup.Configure` inside `UseEndpoints`:
-```csharp
-endpoints.MapHub<RoleHub>("/roleHub");
-```
-Simple client example:
-```javascript
-const conn = new signalR.HubConnectionBuilder().withUrl('/roleHub').build();
-await conn.start();
-await conn.invoke('Ping');
-conn.on('Pong', () => console.log('Role hub responsive'));
-```
 
----
-## 🗺 Roadmap Snapshot
-(See full detail in `PROJECT_ROADMAP.md`)
-- Milestone A: Stabilize (Admin dashboard stats, SignalR wiring, access scoping)
-- Milestone B: Collaboration (comments, filtering, real-time task updates)
-- Milestone C: UX polish (Kanban, analytics, attachments)
-- Milestone D: Hardening (tests, CI/CD, Docker, logging)
-
----
 ## 🧱 Tech Stack
 | Layer | Technology |
 | --- | --- |
@@ -163,7 +142,7 @@ conn.on('Pong', () => console.log('Role hub responsive'));
 | Auth | ASP.NET Core Identity + Roles |
 | Data | Entity Framework Core (SQL Server / LocalDB) |
 | UI | Razor Views, Bootstrap, jQuery |
-| Real-time | SignalR (planned) |
+| Real-time | (Planned: SignalR) |
 | ORM Tooling | dotnet-ef migrations |
 
 ---
@@ -173,35 +152,34 @@ Controllers/       # MVC controllers (Account, Admin, Projects, TaskItems, Dashb
 Models/            # Entities, Identity extensions, ViewModels
 Views/             # Razor views per controller + shared layout/partials
 Migrations/        # EF Core migration history
-Hubs/              # SignalR hubs (RoleHub)
 wwwroot/           # Static assets (css, js, lib)
 API_DOCUMENTATION.md
-PROJECT_ROADMAP.md
 README.md (this file)
 ```
-
----
-## 🧯 Troubleshooting
-| Issue | Possible Fix |
-| ----- | ------------ |
-| DB connection errors | Verify LocalDB installed; adjust `BusinessCon` connection string. |
-| Role redirects incorrect | Confirm users have exactly one role or adjust redirect logic. |
-| 403 errors for Team Member | Ensure they are assigned to the project/task via junction tables. |
-| SignalR 404 | Add `services.AddSignalR()` + endpoint mapping. |
 
 ---
 ## 🤝 Contributions
 For student/team collaboration: create feature branches, open PRs referencing roadmap items, ensure migrations are additive and named meaningfully.
 
 ---
-## 📜 License
+## � Project Authors
+Primary creators and maintainers:
+
+- Shubham Vaishnav – [@shubham-vaishnav-13](https://github.com/shubham-vaishnav-13)
+- Nimit Rangani – [@nimit-ddu](https://github.com/nimit-ddu)
+- Kunjal Virapariya – [@Kunjal-82](https://github.com/Kunjal-82)
+
+Feel free to reach out via GitHub issues for questions or collaboration proposals.
+
+---
+## �📜 License
 Specify a license (e.g., MIT) here if making the project public.
 
 ---
 ## ✅ At a Glance
 - Secure, role-aware project/task platform
 - Extensible data model with junction tables
-- Ready for real-time and collaboration enhancements
+- Ready for planned real-time and collaboration enhancements
 - Documented APIs in `API_DOCUMENTATION.md`
 
-> Next improvement suggestion: register SignalR hub + add a light test suite.
+> Next improvement suggestion: implement SignalR hub (then document) + add a light test suite.
