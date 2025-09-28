@@ -34,6 +34,13 @@
                 <select asp-for="ProjectId" class ="form-control" asp-items="ViewBag.ProjectId"></select>
             </div>
             <div class="form-group">
+                <label class="control-label">Assign To (Team Members)</label>
+                <select name="selectedAssignees" id="Assignees" class="form-control" multiple>
+                    <!-- Dynamically populated after project selection -->
+                </select>
+                <small class="form-text text-muted">Choose one or more team members after selecting a project. Leave empty for no assignees.</small>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -46,4 +53,38 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        (function(){
+            const projectSelect = document.getElementById('ProjectId');
+            const userSelect = document.getElementById('Assignees');
+            function clearUsers(msg){
+                userSelect.innerHTML = '';
+                if(msg){
+                    const opt = document.createElement('option');
+                    opt.disabled = true; opt.selected = true; opt.textContent = msg; userSelect.appendChild(opt);
+                }
+            }
+            async function loadMembers(){
+                const pid = projectSelect.value;
+                if(!pid){ clearUsers('Select project first'); return; }
+                clearUsers('Loading...');
+                try {
+                    const resp = await fetch('/TaskItems/GetTeamMembers?projectId=' + pid);
+                    if(!resp.ok){ clearUsers('Failed to load'); return; }
+                    const data = await resp.json();
+                    clearUsers();
+                    if(data.length===0){ clearUsers('No team members assigned to project'); return; }
+                    data.forEach(u => {
+                        const o = document.createElement('option');
+                        o.value = u.id; o.textContent = u.userName; userSelect.appendChild(o);
+                    });
+                } catch(e){
+                    clearUsers('Error loading team members');
+                    console.error(e);
+                }
+            }
+            projectSelect.addEventListener('change', loadMembers);
+            if(projectSelect.value) loadMembers();
+        })();
+    </script>
 }

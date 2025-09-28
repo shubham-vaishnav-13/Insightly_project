@@ -1,0 +1,123 @@
+@model Insightly_project.Models.Project
+@{
+    ViewData["Title"] = "Assign Clients";
+    var clients = ViewBag.Clients as List<SelectListItem>;
+    var projectId = ViewBag.ProjectId;
+    var projectName = ViewBag.ProjectName;
+}
+
+<h2 class="h4 mb-4">Assign Clients to Project: <span class="font-weight-normal">@projectName</span></h2>
+
+<form asp-action="AssignClients" method="post" id="clientAssignForm">
+    <input type="hidden" name="id" value="@projectId" />
+
+    <div class="form-group">
+        <label class="font-weight-semibold">Select Clients</label>
+        <div class="d-flex flex-wrap align-items-center mb-2">
+            <div class="input-group input-group-sm mr-2" style="max-width:260px;">
+                <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-search"></i></span></div>
+                <input type="text" class="form-control" id="clientFilter" placeholder="Filter users..." aria-label="Filter users" />
+            </div>
+            <button type="button" class="btn btn-outline-primary btn-sm mr-1" id="btnSelectAll">Select All</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-1" id="btnClearAll">Clear</button>
+            <span class="small text-muted" id="selectionCounter"></span>
+        </div>
+
+        <div class="team-select-list border rounded" role="listbox" aria-label="Clients" tabindex="0">
+            @foreach (var client in clients)
+            {
+                var isSelected = client.Selected;
+                var parts = client.Text.Split(" - ");
+                var primary = parts.Length > 1 ? parts[0] : parts[0];
+                var secondary = parts.Length > 1 ? parts[1] : null;
+                <div class="team-select-item @(isSelected ? "active" : "")" data-value="@client.Value" role="option" aria-selected="@isSelected.ToString().ToLower()">
+                    <label class="m-0 d-flex flex-column flex-sm-row align-items-sm-center w-100">
+                        <div class="d-flex align-items-center flex-grow-1">
+                            <input type="checkbox" class="team-select-checkbox mr-2" value="@client.Value" @(isSelected ? "checked" : null) />
+                            <span class="user-name font-weight-500">@primary</span>
+                            @if(!string.IsNullOrEmpty(secondary))
+                            {
+                                <span class="text-muted small ml-sm-2 d-block d-sm-inline">@secondary</span>
+                            }
+                        </div>
+                    </label>
+                </div>
+            }
+        </div>
+
+        <select id="selectedClientsHidden" name="selectedClients" multiple hidden>
+            @foreach (var c in clients.Where(t => t.Selected))
+            {
+                <option value="@c.Value" selected>@c.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Assign </button>
+        <a asp-action="Details" asp-route-id="@projectId" class="btn btn-secondary">Back </a>
+    </div>
+</form>
+
+@section Scripts {
+<script>
+    (function(){
+        const list = document.querySelector('.team-select-list');
+        const hiddenSelect = document.getElementById('selectedClientsHidden');
+        const filterInput = document.getElementById('clientFilter');
+        const btnSelectAll = document.getElementById('btnSelectAll');
+        const btnClearAll = document.getElementById('btnClearAll');
+        const counter = document.getElementById('selectionCounter');
+
+        function syncHiddenSelect(){
+            hiddenSelect.innerHTML='';
+            const checked = list.querySelectorAll('.team-select-checkbox:checked');
+            checked.forEach(cb=>{
+                const opt=document.createElement('option');
+                opt.value=cb.value; opt.selected=true; hiddenSelect.appendChild(opt);
+            });
+            counter.textContent = checked.length + ' selected';
+        }
+        function toggleItem(div, checkbox){
+            checkbox.checked = !checkbox.checked;
+            div.classList.toggle('active', checkbox.checked);
+            div.setAttribute('aria-selected', checkbox.checked.toString());
+            syncHiddenSelect();
+        }
+        list.addEventListener('click', e=>{
+            const item = e.target.closest('.team-select-item');
+            if(!item) return;
+            const cb = item.querySelector('.team-select-checkbox');
+            toggleItem(item, cb);
+        });
+        list.addEventListener('keydown', e=>{
+            const items=[...list.querySelectorAll('.team-select-item')];
+            let idx=items.indexOf(document.activeElement.closest('.team-select-item'));
+            if(e.key==='ArrowDown'){ e.preventDefault(); (items[idx+1]||items[0]).focus(); }
+            else if(e.key==='ArrowUp'){ e.preventDefault(); (items[idx-1]||items[items.length-1]).focus(); }
+            else if(e.key===' ' || e.key==='Enter'){ e.preventDefault(); const cb=document.activeElement.querySelector('.team-select-checkbox'); toggleItem(document.activeElement, cb); }
+        });
+        filterInput.addEventListener('input', ()=>{
+            const q = filterInput.value.toLowerCase();
+            list.querySelectorAll('.team-select-item').forEach(it=>{
+                const name = it.querySelector('.user-name').textContent.toLowerCase();
+                it.style.display = name.includes(q) ? '' : 'none';
+            });
+        });
+        btnSelectAll.addEventListener('click', ()=>{
+            list.querySelectorAll('.team-select-item').forEach(div=>{
+                const cb=div.querySelector('.team-select-checkbox'); cb.checked=true; div.classList.add('active'); div.setAttribute('aria-selected','true');
+            });
+            syncHiddenSelect();
+        });
+        btnClearAll.addEventListener('click', ()=>{
+            list.querySelectorAll('.team-select-item').forEach(div=>{
+                const cb=div.querySelector('.team-select-checkbox'); cb.checked=false; div.classList.remove('active'); div.setAttribute('aria-selected','false');
+            });
+            syncHiddenSelect();
+        });
+        list.querySelectorAll('.team-select-item').forEach(div=>div.setAttribute('tabindex','0'));
+        syncHiddenSelect();
+    })();
+</script>
+}

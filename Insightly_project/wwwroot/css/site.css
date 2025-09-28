@@ -24,7 +24,7 @@ a {
   border-color: #1861ac;
 }
 
-/* Sticky footer styles
+/* Sticky footer styles (updated for flex layout)
 -------------------------------------------------- */
 html {
   font-size: 14px;
@@ -51,24 +51,30 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+/* Layout root */
 html {
   position: relative;
   min-height: 100%;
 }
-
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin:0;
+}
+main.flex-fill {
+  flex: 1 0 auto;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+  flex-shrink: 0;
+  width:100%;
+  line-height:1.4;
+  padding:1rem 0;
 }
+
+/* Removed legacy absolute footer + body margin hack */
+/* .footer { position:absolute; bottom:0; width:100%; line-height:60px; } */
+/* body { margin-bottom:60px; } */
 
 /* --- UI Tweaks --- */
 body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -77,3 +83,76 @@ body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; 
 .btn-group .btn + .btn { margin-left: .25rem; }
 .navbar-brand { font-weight: 600; }
 .footer { font-size: .9rem; }
+
+/* =========================================================
+  Header Blue Theme (imported from provided design)
+  ========================================================= */
+body, .header-blue { font-family:'Source Sans Pro', Arial, sans-serif; }
+.header-blue { background:linear-gradient(135deg,#172a74,#21a9af); background-color:#184e8e; padding-bottom:80px; position:relative; }
+/* Force gradient even if upstream theme sets a background */
+.fix-nav-bg.header-blue { background:linear-gradient(135deg,#172a74,#21a9af)!important; }
+@media (min-width:768px){ .header-blue { padding-bottom:120px; } }
+.header-blue .navbar { background:transparent!important; padding-top:.75rem; padding-bottom:.75rem; color:#fff; box-shadow:none; border:none; }
+@media (min-width:768px){ .header-blue .navbar { padding-top:1rem; padding-bottom:1rem; } }
+.header-blue .navbar-brand { font-weight:600; color:#fff; }
+.header-blue .navbar-brand:hover{ color:#f0f0f0; }
+.header-blue .navbar-nav .nav-link{ color:rgba(255,255,255,.85); transition:color .2s; }
+.header-blue .navbar-nav .nav-link:hover, .header-blue .navbar-nav .nav-link:focus{ color:#fff; }
+.header-blue .navbar .navbar-collapse { border-top:1px solid rgba(255,255,255,0.3); margin-top:.5rem; }
+@media (min-width:768px){ .header-blue .navbar .navbar-collapse { border-color:transparent; margin:0; } }
+.header-blue .navbar .dropdown-menu { margin-top:-5px; box-shadow:0 4px 8px rgba(0,0,0,.1); border:none; }
+.header-blue .navbar .dropdown-menu .dropdown-item { line-height:2; }
+.header-blue .navbar .dropdown-menu .dropdown-item:hover { background:#ebeff1; }
+.header-blue .action-button, .header-blue .action-button:not(.disabled):active { border:1px solid rgba(255,255,255,0.7); border-radius:40px; color:#ebeff1; box-shadow:none; text-shadow:none; padding:.45rem 1.1rem; background:transparent; transition:background-color .25s,color .25s; }
+.header-blue .action-button:hover { color:#fff; background:rgba(255,255,255,.1); }
+.header-blue .navbar .form-inline label { color:#d9d9d9; margin-bottom:0; margin-right:.25rem; }
+.header-blue .navbar .form-inline .search-field { width:160px; background:none; border:none; border-bottom:1px solid transparent; border-radius:0; color:#fff; padding:.15rem .25rem; transition:border-bottom-color .3s; }
+.header-blue .navbar .form-inline .search-field:focus { outline:none; border-bottom:1px solid #fff; }
+.header-blue .hero { margin-top:20px; text-align:center; }
+@media (min-width:768px){ .header-blue .hero { margin-top:60px; text-align:left; } }
+.header-blue .hero h1 { color:#fff!important; font-size:40px; margin:0 0 15px; font-weight:300; line-height:1.4; }
+@media (min-width:992px){ .header-blue .hero h1 { margin-top:120px; margin-bottom:24px; line-height:1.2; } }
+.header-blue .hero p { color:rgba(255,255,255,0.85); font-size:20px; margin-bottom:30px; font-weight:300; max-width:560px; }
+.header-blue .phone-holder { text-align:right; }
+.header-blue .iphone-mockup { position:relative; max-width:300px; margin:20px; display:inline-block; }
+.header-blue .iphone-mockup img.device { width:100%; height:auto; }
+.header-blue .iphone-mockup .screen { position:absolute; width:88%; height:77%; top:12%; left:6%; border:1px solid #444; background-color:#aaa; overflow:hidden; border-radius:4px; background-size:cover; background-position:center; }
+
+/* Utility to push normal page content below gradient if hero absent */
+.header-blue + main { margin-top:0; }
+
+/* Adjust footer contrast on gradient pages */
+.header-blue ~ .footer { background:#f8f9fa; }
+
+/* Responsive tweak: shrink search on small */
+@media (max-width:575.98px){ .header-blue .navbar .form-inline .search-field { width:110px; } }
+
+/* Action button utilities */
+.table .btn-group .btn { display:inline-flex; align-items:center; justify-content:center; min-width:34px; }
+.table .btn-group .btn i { line-height:1; font-size:14px; }
+.table .btn-outline-primary, .table .btn-outline-secondary, .table .btn-outline-info, .table .btn-outline-danger { background:#fff; }
+.table .btn-outline-primary:hover { background:#e3f1ff; }
+.table .btn-outline-secondary:hover { background:#f1f1f1; }
+.table .btn-outline-info:hover { background:#e2f5f9; }
+.table .btn-outline-danger:hover { background:#fdecec; }
+
+/* Team member selection component */
+.team-select-list { max-height:320px; overflow:auto; background:#fff; }
+.team-select-item { cursor:pointer; padding:.45rem .75rem; border-bottom:1px solid #f2f2f2; outline:none; }
+.team-select-item:last-child { border-bottom:none; }
+.team-select-item:hover { background:#f5f9fc; }
+.team-select-item.active { background:#1b6ec2; color:#fff; }
+.team-select-item.active .user-name { color:#fff; }
+.team-select-item:focus { box-shadow:0 0 0 .15rem rgba(27,110,194,.35); }
+.team-select-checkbox { pointer-events:none; }
+
+/* ===================== Mini Hero ====================== */
+.mini-hero { background:linear-gradient(135deg,#172a74,#1e7f95); padding:45px 0 50px; color:#fff; position:relative; overflow:hidden; }
+.mini-hero:after { content:""; position:absolute; top:-40%; right:-10%; width:55%; height:180%; background:rgba(255,255,255,.07); transform:rotate(25deg); }
+.mini-hero-title { font-weight:300; font-size:2.2rem; margin:0 0 .5rem; }
+@media (min-width:992px){ .mini-hero-title { font-size:2.6rem; } }
+.mini-hero-sub { margin:0; font-size:1.05rem; opacity:.85; max-width:640px; }
+
+/* Active nav highlight */
+.header-blue .navbar-nav .nav-item.active > .nav-link { color:#fff; position:relative; }
+.header-blue .navbar-nav .nav-item.active > .nav-link:after { content:""; position:absolute; left:0; bottom:-6px; height:3px; width:100%; background:#fff; border-radius:2px; }

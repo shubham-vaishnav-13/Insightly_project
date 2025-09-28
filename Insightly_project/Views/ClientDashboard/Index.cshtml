@@ -5,4 +5,12 @@
 
 <h1>Index</h1>
 
-<h1>In Client</h1>
+<h1>Client Dashboard</h1>
+
+@{
+    var displayName = User.Claims.FirstOrDefault(c => c.Type == "name")?.Value
+        ?? User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name)?.Value
+        ?? User.Identity?.Name;
+}
+
+<p>Welcome, <strong>@displayName</strong>!</p>

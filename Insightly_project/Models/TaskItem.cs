@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace Insightly_project.Models
 {
@@ -16,7 +17,7 @@ namespace Insightly_project.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Task title is required")]
-        [StringLength(200, MinimumLength = 3, ErrorMessage = "Task title must be between 3 and 200 characters")]
+        [StringLength(200, MinimumLength = 3,ErrorMessage = "Task title must be between 3 and 200 characters")]
         public string Title { get; set; }
 
         [Required]
@@ -30,7 +31,10 @@ namespace Insightly_project.Models
         [Display(Name = "Project")]
         public int ProjectId { get; set; }
 
-        // Navigation property
+        // Navigation properties
         public Project Project { get; set; }
+
+        // Many-to-many: users assigned to this task
+        public ICollection<TaskItemUser> TaskItemUsers { get; set; } = new HashSet<TaskItemUser>();
     }
 }

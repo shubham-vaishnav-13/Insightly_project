@@ -6,6 +6,12 @@ namespace Insightly_project.Models
 {
     public class Project
     {
+        public Project()
+        {
+            Tasks = new HashSet<TaskItem>();
+            ProjectUsers = new HashSet<ProjectUser>();
+        }
+        
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Project name is required")]
@@ -25,7 +31,10 @@ namespace Insightly_project.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        // Navigation property
-        public ICollection<TaskItem> Tasks { get; set; }
+    // Navigation properties
+    public ICollection<TaskItem> Tasks { get; set; }
+
+    // Join entities linking users assigned to this project
+    public ICollection<ProjectUser> ProjectUsers { get; set; }
     }
 }

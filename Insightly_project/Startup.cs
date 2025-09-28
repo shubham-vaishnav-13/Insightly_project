@@ -48,6 +48,8 @@ namespace Insightly_project
                 .AddDefaultTokenProviders()
                 .AddDefaultUI(); 
 
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
+
             services.AddControllersWithViews();
             services.AddRazorPages(); 
 
@@ -55,6 +57,9 @@ namespace Insightly_project
             // Force claims to refresh on each request and validate security stamp immediately
             services.ConfigureApplicationCookie(options =>
             {
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
                 options.Events.OnValidatePrincipal = async context =>
                 {
                     var userManager = context.HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();

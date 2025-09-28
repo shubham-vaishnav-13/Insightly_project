@@ -1,8 +1,146 @@
-﻿
+﻿@model Insightly_project.Models.ViewModels.AdminDashboardStatsViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin Dashboard";
 }
+<div class="container-fluid">
+    <h2 class="mb-4">Admin Dashboard</h2>
 
-<h1>Index</h1>
+    <div class="row g-3 mb-3">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body">
+                    <div class="card-title">Total Users</div>
+                    <div class="display-4">@Model.TotalUsers</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body">
+                    <div class="card-title">Admins</div>
+                    <div class="display-4">@Model.AdminCount</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info h-100">
+                <div class="card-body">
+                    <div class="card-title">Team Members</div>
+                    <div class="display-4">@Model.TeamMemberCount</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-secondary h-100">
+                <div class="card-body">
+                    <div class="card-title">Clients</div>
+                    <div class="display-4">@Model.ClientCount</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<h2>Admin</h2>
+    <div class="row g-3 mb-3">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="card-title">Total Projects</div>
+                    <div class="h2">@Model.TotalProjects</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="card-title">Active Projects</div>
+                    <div class="h2">@Model.ActiveProjects</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="card-title">Projects (Last 30 Days)</div>
+                    <div class="h2">@Model.ProjectsLast30Days</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="card-title">Task Completion</div>
+                    <div class="h2">@Model.CompletionPercent% </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">Recent Projects</div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Created</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.RecentProjects?.Any() == true)
+                            {
+                                foreach (var p in Model.RecentProjects)
+                                {
+                                    <tr>
+                                        <td>@p.Name</td>
+                                        <td>@p.CreatedAt.ToShortDateString()</td>
+                                        <td>@(p.EndDate?.ToShortDateString() ?? "-")</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="3" class="text-center text-muted">No projects yet.</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white">Overdue Tasks (Top 5)</div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Project</th>
+                                <th>Due</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.OverdueTaskSamples?.Any() == true)
+                            {
+                                foreach (var t in Model.OverdueTaskSamples)
+                                {
+                                    <tr>
+                                        <td>@t.Title</td>
+                                        <td>@t.Project?.Name</td>
+                                        <td>@t.DueDate?.ToShortDateString()</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="3" class="text-center text-muted">No overdue tasks. Great job!</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+@* Reusable default hero partial. Pages can override by defining a @section Hero in their own view. *@
+<div class="container hero">
+    <div class="row align-items-center">
+        <div class="col-12 col-lg-7 mb-4 mb-lg-0">
+            <h1>Welcome to Insightly</h1>
+            <p class="mb-4">A lightweight project & task tracking platform. Create projects, assign work, and stay aligned effortlessly.</p>
+            <a class="btn btn-light btn-lg action-button mr-2 mb-2" asp-controller="Projects" asp-action="Create">New Project</a>
+            <a class="btn btn-outline-light btn-lg mb-2" asp-controller="Projects" asp-action="Index">All Projects</a>
+        </div>
+        <div class="col-lg-5 d-none d-lg-block phone-holder">
+            <div class="iphone-mockup">
+                <div class="screen"></div>
+            </div>
+        </div>
+    </div>
+</div>

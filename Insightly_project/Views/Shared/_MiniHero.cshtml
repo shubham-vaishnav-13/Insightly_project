@@ -1,0 +1,10 @@
+@* Mini hero fallback for inner pages *@
+<div class="mini-hero">
+    <div class="container">
+        <h1 class="mini-hero-title">@ViewData["Title"]</h1>
+        @if(ViewData["Subtitle"] is string subtitle && !string.IsNullOrWhiteSpace(subtitle))
+        {
+            <p class="mini-hero-sub">@subtitle</p>
+        }
+    </div>
+</div>

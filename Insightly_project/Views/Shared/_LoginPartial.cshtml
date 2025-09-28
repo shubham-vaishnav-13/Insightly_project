@@ -1,29 +1,49 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Insightly_project.Models
+@using System.Linq
+@using System.Security.Claims
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav ml-auto align-items-lg-center">
     @if (User.Identity.IsAuthenticated)
     {
+        var displayName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value
+            ?? User.Claims.FirstOrDefault(c => c.Type == "name")?.Value;
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            var currentUser = await UserManager.GetUserAsync(User);
+            displayName = currentUser?.Name ?? currentUser?.Email ?? User.Identity?.Name;
+        }
+
         <li class="nav-item d-none d-lg-block">
-            <span class="nav-link">Hello, @User.Identity.Name!</span>
+            <span class="nav-link">Hello, @displayName!</span>
         </li>
 
         @if (User.IsInRole("Admin"))
         {
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Projects" asp-action="Index"><i class="bi bi-diagram-3"></i> Manage Projects</a>
+                <a class="nav-link" asp-controller="Projects" asp-action="Index"><i class="bi bi-diagram-3"></i> Projects</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="TaskItems" asp-action="Index"><i class="bi bi-list-check"></i> Manage Tasks</a>
+                <a class="nav-link" asp-controller="TaskItems" asp-action="Index"><i class="bi bi-list-check"></i> Tasks</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Admin" asp-action="Users"><i class="bi bi-people"></i> Users</a>
             </li>
+                        
+                <li class="nav-item ">
+                    <a class="nav-link" asp-controller="AdminDashboard" asp-action="Index" title="Admin statistics dashboard">
+                        <i class="bi bi-speedometer2"></i> Stats
+                    </a>
+                </li>
+                        
         }
         else if (User.IsInRole("TeamMember"))
         {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Projects" asp-action="Index"><i class="bi bi-folder2-open"></i> My Projects</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="TaskItems" asp-action="Index"><i class="bi bi-person-workspace"></i> My Tasks</a>
             </li>
@@ -36,7 +56,8 @@
         }
 
         <li class="nav-item">
-            <form asp-area="Identity" asp-page="/Account/Logout" method="post" id="logoutForm" class="form-inline">
+            <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="form-inline">
+                @Html.AntiForgeryToken()
                 <button type="submit" class="nav-link btn btn-link px-0"><i class="bi bi-box-arrow-right"></i> Logout</button>
             </form>
         </li>
@@ -44,10 +65,10 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+            <a class="nav-link" asp-controller="Account" asp-action="Login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register"><i class="bi bi-person-plus"></i> Register</a>
+            <a class="nav-link" asp-controller="Account" asp-action="Register"><i class="bi bi-person-plus"></i> Register</a>
         </li>
     }
 </ul>

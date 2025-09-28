@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Logout";
+    var returnUrl = (string)ViewData["ReturnUrl"];
+}
+<h2>Sign out</h2>
+<div class="row">
+    <div class="col-md-6">
+        <div class="alert alert-info">
+            You are about to sign out of your account.
+        </div>
+        <form asp-action="Logout" method="post">
+            <input type="hidden" name="returnUrl" value="@returnUrl" />
+            <button type="submit" class="btn btn-primary">Logout</button>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

@@ -25,6 +25,12 @@ using Insightly_project.Models
 #nullable disable
     ;
 #nullable restore
+#line 3 "C:\Users\Admin\source\repos\Insightly_project\Insightly_project\Views\_ViewImports.cshtml"
+using Insightly_project.Models.ViewModels
+
+#nullable disable
+    ;
+#nullable restore
 #line 1 "C:\Users\Admin\source\repos\Insightly_project\Insightly_project\Views\Admin\Users.cshtml"
  using Microsoft.AspNetCore.Identity
 
@@ -39,7 +45,7 @@ using Insightly_project.Models
     #line default
     #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"5df2bcee83e250e14c180f66df9c8a830b164f415ee372efb82553c824c199dc", @"/Views/Admin/Users.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"539ad332aa1b80df9ccffc4257b22ff24138916334fceea712e4b5cc601004b2", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"207cc0eea3b698cae12235a6202e51dc43c008d9e79fd0237c9d40a48f6a44d6", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     internal sealed class Views_Admin_Users : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<
 #nullable restore
@@ -140,7 +146,7 @@ using Insightly_project.Models
 #nullable disable
             );
             WriteLiteral("                </td>\r\n                <td>\r\n                    ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5df2bcee83e250e14c180f66df9c8a830b164f415ee372efb82553c824c199dc6774", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5df2bcee83e250e14c180f66df9c8a830b164f415ee372efb82553c824c199dc6965", async() => {
                 WriteLiteral("Assign Role");
             }
             );

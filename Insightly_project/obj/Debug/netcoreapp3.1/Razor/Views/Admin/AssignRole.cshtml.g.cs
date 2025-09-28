@@ -24,10 +24,16 @@ using Insightly_project.Models
 
 #nullable disable
     ;
+#nullable restore
+#line 3 "C:\Users\Admin\source\repos\Insightly_project\Insightly_project\Views\_ViewImports.cshtml"
+using Insightly_project.Models.ViewModels
+
+#nullable disable
+    ;
     #line default
     #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"1448d6426cc317e4fc037a2a2a9f716c040a7264775192e32de3ea0edfc42b49", @"/Views/Admin/AssignRole.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"539ad332aa1b80df9ccffc4257b22ff24138916334fceea712e4b5cc601004b2", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"207cc0eea3b698cae12235a6202e51dc43c008d9e79fd0237c9d40a48f6a44d6", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     internal sealed class Views_Admin_AssignRole : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<
 #nullable restore
@@ -94,7 +100,7 @@ using Insightly_project.Models
 #nullable disable
             );
             WriteLiteral("</h2>\r\n\r\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1448d6426cc317e4fc037a2a2a9f716c040a7264775192e32de3ea0edfc42b496167", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1448d6426cc317e4fc037a2a2a9f716c040a7264775192e32de3ea0edfc42b496358", async() => {
                 WriteLiteral("\r\n    <input type=\"hidden\" name=\"id\"");
                 BeginWriteAttribute("value", " value=\"", 323, "\"", 340, 1);
                 WriteAttributeValue("", 331, 
@@ -108,7 +114,7 @@ using Insightly_project.Models
                 , 331, 9, false);
                 EndWriteAttribute();
                 WriteLiteral(" />\r\n\r\n    <div class=\"form-group\">\r\n        <label for=\"role\">Select Role:</label>\r\n        <select class=\"form-control\" id=\"role\" name=\"role\">\r\n            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1448d6426cc317e4fc037a2a2a9f716c040a7264775192e32de3ea0edfc42b497127", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1448d6426cc317e4fc037a2a2a9f716c040a7264775192e32de3ea0edfc42b497318", async() => {
                     WriteLiteral("-- No Role --");
                 }
                 );
@@ -135,7 +141,7 @@ using Insightly_project.Models
 #nullable disable
 
                 WriteLiteral("                ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1448d6426cc317e4fc037a2a2a9f716c040a7264775192e32de3ea0edfc42b498742", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1448d6426cc317e4fc037a2a2a9f716c040a7264775192e32de3ea0edfc42b498933", async() => {
                     Write(
 #nullable restore
 #line 20 "C:\Users\Admin\source\repos\Insightly_project\Insightly_project\Views\Admin\AssignRole.cshtml"
@@ -190,7 +196,7 @@ using Insightly_project.Models
 #nullable disable
 
                 WriteLiteral("        </select>\r\n    </div>\r\n\r\n    <button type=\"submit\" class=\"btn btn-success mt-2\">Save Role</button>\r\n    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1448d6426cc317e4fc037a2a2a9f716c040a7264775192e32de3ea0edfc42b4911738", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1448d6426cc317e4fc037a2a2a9f716c040a7264775192e32de3ea0edfc42b4911929", async() => {
                     WriteLiteral("Back");
                 }
                 );

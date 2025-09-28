@@ -4,12 +4,29 @@
     ViewData["Title"] = "Projects";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0"><i class="bi bi-diagram-3"></i> Projects</h2>
-    @if (User.IsInRole("Admin"))
-    {
-        <a class="btn btn-success" asp-action="Create"><i class="bi bi-plus-circle"></i> New Project</a>
-    }
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h2 class="mb-2 mb-sm-0"><i class="bi bi-diagram-3"></i> Projects</h2>
+    <div class="d-flex align-items-center gap-2">
+        @if (User.IsInRole("Admin") || User.IsInRole("TeamMember") || User.IsInRole("Client"))
+        {
+            <form asp-action="Index" method="get" class="form-inline mr-2" role="search">
+                <div class="input-group input-group-sm">
+                    <input class="form-control" type="search" name="q" value="@((string)ViewData["q"])" placeholder="Search projects..." aria-label="Search projects" />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit" title="Search"><i class="bi bi-search"></i></button>
+                        @if (!string.IsNullOrWhiteSpace((string)ViewData["q"]))
+                        {
+                            <a class="btn btn-outline-secondary" asp-action="Index" title="Clear"><i class="bi bi-x-circle"></i></a>
+                        }
+                    </div>
+                </div>
+            </form>
+        }
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="btn btn-success btn-sm" asp-action="Create"><i class="bi bi-plus-circle"></i> New Project</a>
+        }
+    </div>
 </div>
 
 <div class="card shadow-sm">
@@ -27,31 +44,52 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model)
+                @if (!Model.Any())
                 {
                     <tr>
-                        <td>@item.Name</td>
-                        <td class="text-muted">@item.Description</td>
-                        <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
-                        <td>@(item.EndDate?.ToString("yyyy-MM-dd") ?? "-")</td>
-                        <td>@item.CreatedAt.ToString("yyyy-MM-dd")</td>
-                        <td class="text-right">
-                            <div class="btn-group btn-group-sm" role="group">
-                                <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" title="Details">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <a class="btn btn-outline-secondary" asp-action="Edit" asp-route-id="@item.Id" data-toggle="tooltip" title="Edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" title="Delete">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                }
-                            </div>
+                        <td colspan="6" class="text-center text-muted py-4">
+                            @if (!string.IsNullOrWhiteSpace((string)ViewData["q"]))
+                            {
+                                <span>No projects match "@ViewData["q"]".</span>
+                            }
+                            else
+                            {
+                                <span>No projects available.</span>
+                            }
                         </td>
                     </tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td class="text-muted">@item.Description</td>
+                            <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                            <td>@(item.EndDate?.ToString("yyyy-MM-dd") ?? "-")</td>
+                            <td>@item.CreatedAt.ToString("yyyy-MM-dd")</td>
+                            <td class="text-right">
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" title="Details">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a class="btn btn-outline-secondary" asp-action="Edit" asp-route-id="@item.Id" data-toggle="tooltip" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a class="btn btn-outline-info" asp-action="AssignTeamMembers" asp-route-id="@item.Id" data-toggle="tooltip" title="Assign Team Members">
+                                            <i class="bi bi-people"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id" data-toggle="tooltip" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 }
                 </tbody>
             </table>

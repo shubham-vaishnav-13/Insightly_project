@@ -44,6 +44,11 @@ namespace Insightly_project.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -92,9 +97,7 @@ namespace Insightly_project.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(500)")
@@ -116,6 +119,24 @@ namespace Insightly_project.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("Insightly_project.Models.ProjectUser", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("AssignedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ProjectId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ProjectTeamMembers");
+                });
+
             modelBuilder.Entity("Insightly_project.Models.TaskItem", b =>
                 {
                     b.Property<int>("Id")
@@ -130,8 +151,7 @@ namespace Insightly_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasMaxLength(50);
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -143,6 +163,24 @@ namespace Insightly_project.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("TaskItems");
+                });
+
+            modelBuilder.Entity("Insightly_project.Models.TaskItemUser", b =>
+                {
+                    b.Property<int>("TaskItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("AssignedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TaskItemId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TaskItemAssignees");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -276,11 +314,41 @@ namespace Insightly_project.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Insightly_project.Models.ProjectUser", b =>
+                {
+                    b.HasOne("Insightly_project.Models.Project", "Project")
+                        .WithMany("ProjectUsers")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Insightly_project.Models.ApplicationUser", "User")
+                        .WithMany("ProjectUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Insightly_project.Models.TaskItem", b =>
                 {
                     b.HasOne("Insightly_project.Models.Project", "Project")
                         .WithMany("Tasks")
                         .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Insightly_project.Models.TaskItemUser", b =>
+                {
+                    b.HasOne("Insightly_project.Models.TaskItem", "TaskItem")
+                        .WithMany("TaskItemUsers")
+                        .HasForeignKey("TaskItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Insightly_project.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

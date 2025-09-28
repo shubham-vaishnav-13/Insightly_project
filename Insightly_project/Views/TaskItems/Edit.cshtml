@@ -35,6 +35,11 @@
                 <span asp-validation-for="ProjectId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Assign To (Team Members)</label>
+                <select name="selectedAssignees" id="Assignees" class="form-control" multiple asp-items="(MultiSelectList)ViewBag.Assignees"></select>
+                <small class="form-text text-muted">Hold Ctrl (Windows) to select multiple members. Clear all selections for no assignees.</small>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -47,4 +52,40 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        (function(){
+            const projectSelect = document.getElementById('ProjectId');
+            const userSelect = document.getElementById('Assignees');
+            function clearUsers(msg){
+                userSelect.innerHTML = '';
+                if(msg){
+                    const opt = document.createElement('option');
+                    opt.disabled = true; opt.selected = true; opt.textContent = msg; userSelect.appendChild(opt);
+                }
+            }
+            async function loadMembers(){
+                const pid = projectSelect.value;
+                if(!pid){ clearUsers('Select project first'); return; }
+                clearUsers('Loading...');
+                // preserve current selections
+                const previouslySelected = Array.from(userSelect.selectedOptions).map(o => o.value);
+                try {
+                    const resp = await fetch('/TaskItems/GetTeamMembers?projectId=' + pid);
+                    if(!resp.ok){ clearUsers('Failed to load'); return; }
+                    const data = await resp.json();
+                    clearUsers();
+                    if(data.length===0){ clearUsers('No team members for project'); return; }
+                    data.forEach(u => {
+                        const o = document.createElement('option');
+                        o.value = u.id; o.textContent = u.userName; if(previouslySelected.includes(u.id)) o.selected = true; userSelect.appendChild(o);
+                    });
+                } catch(e){
+                    clearUsers('Error loading team members');
+                    console.error(e);
+                }
+            }
+            projectSelect.addEventListener('change', loadMembers);
+            loadMembers();
+        })();
+    </script>
 }

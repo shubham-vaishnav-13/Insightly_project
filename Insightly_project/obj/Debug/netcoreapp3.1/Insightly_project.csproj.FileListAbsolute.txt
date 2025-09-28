@@ -212,3 +212,12 @@ C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcor
 C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Users.cshtml.g.cs
 c:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Alerts.cshtml.g.cs
 C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Insightly_project.sourcelink.json
+C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Projects\AssignTeamMembers.cshtml.g.cs
+C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_HeroDefault.cshtml.g.cs
+C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout_OriginalBackup.cshtml.g.cs
+C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_MiniHero.cshtml.g.cs
+c:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Projects\AssignClients.cshtml.g.cs
+C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
+C:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Account\Logout.cshtml.g.cs
+c:\Users\Admin\source\repos\Insightly_project\Insightly_project\obj\Debug\netcoreapp3.1\Razor\Views\Account\AccessDenied.cshtml.g.cs

@@ -24,10 +24,16 @@ using Insightly_project.Models
 
 #nullable disable
     ;
+#nullable restore
+#line 3 "C:\Users\Admin\source\repos\Insightly_project\Insightly_project\Views\_ViewImports.cshtml"
+using Insightly_project.Models.ViewModels
+
+#nullable disable
+    ;
     #line default
     #line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"5dbf98b6b9394ad78206edce40cab1d7a238aa69cfefa41bab0ebc6aa22488aa", @"/Views/Shared/Error.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"539ad332aa1b80df9ccffc4257b22ff24138916334fceea712e4b5cc601004b2", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"Sha256", @"207cc0eea3b698cae12235a6202e51dc43c008d9e79fd0237c9d40a48f6a44d6", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     internal sealed class Views_Shared_Error : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<
 #nullable restore
