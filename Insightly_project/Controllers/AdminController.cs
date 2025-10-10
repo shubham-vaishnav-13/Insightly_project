@@ -62,4 +62,36 @@ public class AdminController : Controller
 
         return RedirectToAction("Users");
     }
+
+    // POST: Delete user
+    [HttpPost]
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null)
+        {
+            TempData["Error"] = "User not found.";
+            return RedirectToAction("Users");
+        }
+
+        // Prevent admin from deleting themselves
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (user.Id == currentUser.Id)
+        {
+            TempData["Error"] = "You cannot delete your own account.";
+            return RedirectToAction("Users");
+        }
+
+        var result = await _userManager.DeleteAsync(user);
+        if (result.Succeeded)
+        {
+            TempData["Success"] = $"User {user.Email} has been deleted successfully.";
+        }
+        else
+        {
+            TempData["Error"] = "Failed to delete user: " + string.Join(", ", result.Errors.Select(e => e.Description));
+        }
+
+        return RedirectToAction("Users");
+    }
 }

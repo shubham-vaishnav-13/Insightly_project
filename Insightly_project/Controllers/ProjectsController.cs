@@ -123,6 +123,12 @@ namespace Insightly_project.Controllers
         // POST: Projects/Create
         public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,CreatedAt")] Project project)
         {
+            // Simple date validation
+            if (project.EndDate.HasValue && project.EndDate < project.StartDate)
+            {
+                ModelState.AddModelError("EndDate", "End date cannot be earlier than start date.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(project);
@@ -158,6 +164,12 @@ namespace Insightly_project.Controllers
             if (id != project.Id)
             {
                 return NotFound();
+            }
+
+            // Simple date validation
+            if (project.EndDate.HasValue && project.EndDate < project.StartDate)
+            {
+                ModelState.AddModelError("EndDate", "End date cannot be earlier than start date.");
             }
 
             if (ModelState.IsValid)
