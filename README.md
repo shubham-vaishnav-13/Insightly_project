@@ -1,21 +1,30 @@
 # Insightly Project
 
-Lightweight role-based project & task management platform built with ASP.NET Core MVC 3.1 and Entity Framework Core. Supports three personas (Admin, Team Member, Client) with scoped visibility, task assignment, and extensible roadmap for collaboration features.
-
-> For the full, always up-to-date endpoint table see: [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
+Lightweight role-based project & task management platform built with ASP.NET Core MVC 3.1 and Entity Framework Core.
 
 ---
-## ✨ Core Features
-- User authentication & role-based authorization (Identity + Roles: Admin, TeamMember, Client)
-- Project management (CRUD, assign team members & clients)
-- Task management (CRUD, multi-user assignment via junction table, status tracking)
-- Dashboards per role (Admin metrics, Team Member view, Client view)
-- Search (project name/description)
-- Data seeding (roles + three default users)
-- Clean separation of concerns via EF models & navigation properties
 
+## ▶️ Demo
+- Watch a short demo: https://youtu.be/N-zglUTem6Y?si=pqGYsl3I6CwKsTkY
+
+---
+
+## ✨ Implemented Features (only)
+- User authentication & role-based authorization using ASP.NET Core Identity (roles: Admin, TeamMember, Client).
+- Project management (CRUD by Admin; assigned Team Members & Clients).
+- Task management:
+    - Tasks are created/managed by Admin.
+    - Tasks support many-to-many assignment to users via junction table (`TaskItemUser`).
+    - Assigned Team Members can update task status.
+- Role-aware dashboards (Admin, Team Member, Client) with scoped visibility.
+- Project search by name/description.
+- Data seeding for roles and default users (seeded credentials may be present in the project).
+- EF Core models, migrations, and repository patterns used for data access.
+
+> Note: Features listed above are implemented. Other items mentioned previously (real-time updates, task comments, attachments, Kanban board, advanced client scoping, extensive client task editing, analytics, email notifications, CI/CD, Dockerization) are roadmap items and are not implemented in this codebase.
+
+---
 ## 🧩 Planned / Roadmap Highlights
-See `PROJECT_ROADMAP.md` for full milestone plan:
 - Real-time updates (future: add SignalR hub & notifications)
 - Task comments, attachments, Kanban board, analytics, email notifications
 - Improved scoping for clients & richer filters for tasks
@@ -126,7 +135,7 @@ Default credentials (if seeded):
 
 ---
 ## 📡 API Summary
-Core MVC endpoints are structured by controller/action convention. A concise reference is maintained in [API_DOCUMENTATION.md](./API_DOCUMENTATION.md). That file includes:
+Core MVC endpoints are structured by controller/action convention. 
 - Account (Register/Login/Logout/AccessDenied)
 - Admin (User list, role assignment)
 - Dashboards
@@ -134,6 +143,7 @@ Core MVC endpoints are structured by controller/action convention. A concise ref
 - TaskItems (CRUD + Status updates + team member JSON)
 
 ---
+
 
 ## 🧱 Tech Stack
 | Layer | Technology |
@@ -180,6 +190,4 @@ Specify a license (e.g., MIT) here if making the project public.
 - Secure, role-aware project/task platform
 - Extensible data model with junction tables
 - Ready for planned real-time and collaboration enhancements
-- Documented APIs in `API_DOCUMENTATION.md`
 
-> Next improvement suggestion: implement SignalR hub (then document) + add a light test suite.
