@@ -25,16 +25,6 @@ namespace Insightly_project.Models
             {
                 entity.ToTable("Projects");
 
-                // entity.Property(p => p.Name)
-                //     .IsRequired()
-                //     .HasMaxLength(100);
-
-                // entity.Property(p => p.Description)
-                //     .HasMaxLength(500);
-
-                // entity.Property(p => p.CreatedAt)
-                //     .HasDefaultValueSql("GETDATE()");
-
                 entity.HasMany(p => p.Tasks)
                     .WithOne(t => t.Project)
                     .HasForeignKey(t => t.ProjectId)
@@ -62,7 +52,6 @@ namespace Insightly_project.Models
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
-            // TaskItem entity configuration  
 
             /*  
                 For TaskItem  
@@ -72,17 +61,6 @@ namespace Insightly_project.Models
             modelBuilder.Entity<TaskItem>(entity =>
             {
                 entity.ToTable("TaskItems");
-
-                // entity.Property(t => t.Title)
-                //     .IsRequired()
-                //     .HasMaxLength(200);
-
-                // entity.Property(t => t.Status)
-                //     .IsRequired()
-                //     .HasMaxLength(50);
-
-                // entity.Property(t => t.DueDate)
-                //     .IsRequired(false);
             });
 
             // Many-to-many TaskItem <-> Users via TaskItemUser

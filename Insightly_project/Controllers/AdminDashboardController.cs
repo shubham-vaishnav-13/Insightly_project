@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// This Controller is use to display admin dashboard statistics
+
 namespace Insightly_project.Controllers
 {
     [Authorize(Roles = "Admin")]
@@ -29,8 +31,8 @@ namespace Insightly_project.Controllers
             var now = DateTime.UtcNow;
             var cutoff = now.AddDays(-30);
 
-            // User counts (roles fetched via RoleManager -> UserManager relation not directly accessible, so we enumerate)
-            var users = _userManager.Users; // IQueryable
+            // User counts 
+            var users = _userManager.Users;
             int totalUsers = await users.CountAsync();
 
             // Count users per role

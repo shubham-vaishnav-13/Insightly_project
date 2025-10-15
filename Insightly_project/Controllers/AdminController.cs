@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
+// This Controller is used for admin user management functions
+// This is used for listing users, assigning roles, and deleting users
+
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {

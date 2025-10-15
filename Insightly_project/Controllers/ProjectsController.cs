@@ -9,6 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+/*
+ ProjectControeler
+- Creating / Editing / Deleting projects
+
+- Viewing project details
+
+- Assigning Team Members and Clients to each project
+
+- Showing project lists filtered based on the user’s role (Admin, TeamMember, Client)
+ 
+ */
+
 namespace Insightly_project.Controllers
 {
     [Authorize(Roles = "Admin,TeamMember,Client")]
@@ -24,10 +36,10 @@ namespace Insightly_project.Controllers
         }
 
         [Authorize(Roles = "Admin,TeamMember,Client")]
-        // GET: Projects
+        // GET: Projects all can see , but filtered by role
         public async Task<IActionResult> Index(string q)
         {
-            // Base query including join table for filtering
+            // For Search
             var query = _context.Projects
                 .Include(p => p.ProjectUsers)
                 .AsQueryable();
@@ -51,21 +63,25 @@ namespace Insightly_project.Controllers
                 query = query.Where(p => EF.Functions.Like(p.Name, like) || (p.Description != null && EF.Functions.Like(p.Description, like)));
             }
 
+            // For admin , show all projects
+
             ViewData["q"] = q;
             var list = await query
                 .OrderBy(p => p.Name)
                 .ToListAsync();
-            return View(list);
+            return View(list); // if admin then all
         }
 
         [Authorize(Roles = "Admin,TeamMember,Client")]
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null) 
             {
                 return NotFound();
             }
+
+            // Linq quesry for get project with related users and tasks
 
             var project = await _context.Projects
                 .Include(p => p.ProjectUsers)
@@ -99,7 +115,6 @@ namespace Insightly_project.Controllers
                 {
                     return Forbid();
                 }
-                // Business rule: client can view the whole project and all its tasks (no per-task filtering)
             }
             // Build separate lists for view display
             var teamMemberIds = (await _userManager.GetUsersInRoleAsync("TeamMember")).Select(u => u.Id).ToHashSet();

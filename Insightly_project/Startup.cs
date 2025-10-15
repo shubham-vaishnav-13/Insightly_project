@@ -29,13 +29,6 @@ namespace Insightly_project
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("BusinessCon")));
 
-            //services.AddIdentity<IdentityUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders()
-            //    .AddDefaultUI();   
-            //;
-            //services.AddControllersWithViews();
-            //services.AddRazorPages(); // Add this
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {

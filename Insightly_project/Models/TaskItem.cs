@@ -31,10 +31,8 @@ namespace Insightly_project.Models
         [Display(Name = "Project")]
         public int ProjectId { get; set; }
 
-        // Navigation properties
         public Project Project { get; set; }
 
-        // Many-to-many: users assigned to this task
         public ICollection<TaskItemUser> TaskItemUsers { get; set; } = new HashSet<TaskItemUser>();
     }
 }

@@ -7,6 +7,9 @@ using Insightly_project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
+
+// we are not use this pages as of now 
+
 namespace Insightly_project.Controllers
 {
     public class HomeController : Controller

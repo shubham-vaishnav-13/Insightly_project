@@ -29,7 +29,7 @@ namespace Insightly_project.Controllers
             var query = _context.TaskItems
                 .Include(t => t.Project)
                 .Include(t => t.TaskItemUsers)
-                    .ThenInclude(tu => tu.User)
+                .ThenInclude(tu => tu.User)
                 .AsQueryable();
 
             if (User.IsInRole("TeamMember"))
@@ -272,12 +272,29 @@ namespace Insightly_project.Controllers
 
         private IEnumerable<ApplicationUser> GetTeamMembersForProject(int projectId)
         {
-            // join via ProjectUsers table
+            // Only return users assigned to the project who have the TeamMember role
+            // Note: IdentityDbContext exposes Roles and UserRoles sets
+            var teamRoleId = _context.Roles
+                .Where(r => r.Name == "TeamMember")
+                .Select(r => r.Id)
+                .FirstOrDefault();
+
+            if (string.IsNullOrEmpty(teamRoleId))
+            {
+                // If role not configured, return empty to avoid assigning clients by mistake
+                return Enumerable.Empty<ApplicationUser>();
+            }
+
+            var teamMemberIds = _context.UserRoles
+                .Where(ur => ur.RoleId == teamRoleId)
+                .Select(ur => ur.UserId);
+
             var users = _context.ProjectUsers
-                .Where(pu => pu.ProjectId == projectId)
+                .Where(pu => pu.ProjectId == projectId && teamMemberIds.Contains(pu.UserId))
                 .Select(pu => pu.User)
                 .OrderBy(u => u.UserName)
                 .ToList();
+
             return users;
         }
 

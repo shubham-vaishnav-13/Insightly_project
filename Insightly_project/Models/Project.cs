@@ -31,10 +31,8 @@ namespace Insightly_project.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-    // Navigation properties
     public ICollection<TaskItem> Tasks { get; set; }
 
-    // Join entities linking users assigned to this project
     public ICollection<ProjectUser> ProjectUsers { get; set; }
     }
 }

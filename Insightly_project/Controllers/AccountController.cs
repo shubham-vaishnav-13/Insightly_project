@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
+// This Controller handles user registration, login, logout, and role-based redirection
+
 namespace Insightly_project.Controllers
 {
     public class AccountController : Controller

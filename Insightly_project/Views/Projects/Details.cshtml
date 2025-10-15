@@ -81,7 +81,11 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    }
+    &nbsp;
     @if (User.IsInRole("Admin"))
     {
         <a asp-action="AssignTeamMembers" asp-route-id="@Model.Id">Assign Team Members</a> <span>|</span>
