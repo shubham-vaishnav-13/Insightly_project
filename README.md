@@ -5,7 +5,7 @@ Lightweight role-based project & task management platform built with ASP.NET Cor
 ---
 
 ## ▶️ Demo
-- Watch a short demo: https://youtu.be/N-zglUTem6Y?si=pqGYsl3I6CwKsTkY
+- Watch a short demo: https://shorturl.at/Hw73V
 
 ---
 
